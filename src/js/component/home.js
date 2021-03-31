@@ -1,24 +1,62 @@
-import React from "react";
+import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
+export function ToDoList() {
+	const [list, setList] = useState([]);
+	const [inputValue, setInputValue] = useState("");
 
-//create your first component
-export function Home() {
+	const handleKeyPress = e => {
+		if (e.key === "Enter" && inputValue !== "") {
+			setList(
+				list.concat({
+					label: inputValue,
+					done: false
+				})
+			);
+			setInputValue("");
+		}
+	};
+
+	const deleteTodo = index => {
+		setList(list.filter((item, i) => index != i));
+	};
+
 	return (
-		<div className="text-center mt-5">
-			<h1>Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
+		<div className="d-flex flex-column align-items-center justtify-content-center h-100">
+			<h1>todos</h1>
+			<ul className="list-unstyled d-flex flex-column p-o">
+				<li>
+					{/* field for new todo */}
+					<input
+						type="text"
+						placeholder="What needs to get done?"
+						value={inputValue}
+						onKeyPress={e => handleKeyPress(e)}
+						onChange={e => setInputValue(e.target.value)}
+					/>
+				</li>
+				{/* mapping */}
+				{list.map((item, index) => (
+					<li
+						key={index}
+						label={item.label}
+						className="d-flex listItem">
+						{item.label}{" "}
+						<span
+							className="ml-auto"
+							onClick={() => deleteTodo(index)}>
+							<FontAwesomeIcon className="icon" icon={faTimes} />
+						</span>
+					</li>
+				))}
+				{/* list counter in footer */}
+				<li className="counter">
+					{list.length > 0
+						? `${list.length} item left`
+						: "All tasks completed"}
+				</li>
+			</ul>
 		</div>
 	);
 }

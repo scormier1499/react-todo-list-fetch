@@ -27,7 +27,7 @@ export function ToDoList() {
 			<h1>todos</h1>
 			<ul className="list-unstyled d-flex flex-column p-o">
 				<li>
-					{/* field for new todo */}
+					{/* field for add new todo */}
 					<input
 						type="text"
 						placeholder="What needs to get done?"
@@ -36,13 +36,15 @@ export function ToDoList() {
 						onChange={e => setInputValue(e.target.value)}
 					/>
 				</li>
-				{/* mapping */}
+				{/* mapping for new line items*/}
 				{list.map((item, index) => (
 					<li
 						key={index}
 						label={item.label}
 						className="d-flex listItem">
-						{item.label}{" "}
+						{/* list of line items start*/}
+						{item.label}
+
 						<span
 							className="ml-auto"
 							onClick={() => deleteTodo(index)}>
@@ -53,7 +55,9 @@ export function ToDoList() {
 				{/* list counter in footer */}
 				<li className="counter">
 					{list.length > 0
-						? `${list.length} item left`
+						? `${list.length} item${
+								list.length > 1 ? "s left" : " left"
+						  }`
 						: "All tasks completed"}
 				</li>
 			</ul>

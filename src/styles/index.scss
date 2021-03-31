@@ -26,6 +26,11 @@ h1 {
     text-rendering: optimizeLegibility;
 }
 
+.todotitle-suffix{
+    font-weight: bold !important;
+    color: rgba(175, 47, 47, 0.15);
+}
+
 ul{
     width: 100%;
     font-size: 18px;

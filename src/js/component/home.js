@@ -24,7 +24,10 @@ export function ToDoList() {
 
 	return (
 		<div className="d-flex flex-column align-items-center justtify-content-center h-100">
-			<h1>todos</h1>
+			<h1>
+				<span className="todotitle-prefix">todo</span>
+				<span className="todotitle-suffix">list</span>
+			</h1>
 			<ul className="list-unstyled d-flex flex-column p-o">
 				<li>
 					{/* field for add new todo */}

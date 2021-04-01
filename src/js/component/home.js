@@ -6,6 +6,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 export function ToDoList() {
 	const [list, setList] = useState([]);
 	const [inputValue, setInputValue] = useState("");
+	const [completed, setCompleted] = useState("");
 
 	const handleKeyPress = e => {
 		if (e.key === "Enter" && inputValue !== "") {
@@ -21,6 +22,17 @@ export function ToDoList() {
 
 	const deleteTodo = index => {
 		setList(list.filter((item, i) => index != i));
+	};
+
+	const handleCompleteTodo = index => {
+		let updatedList = [].concat(list);
+		updatedList[index].completed = !updatedList[index].completed;
+		let count = 0;
+		for (let i = 0; i < updatedList.length; i++) {
+			updatedList[i].completed && count++;
+		}
+		setCompleted(count);
+		setList(updatedList);
 	};
 
 	return (
@@ -48,6 +60,16 @@ export function ToDoList() {
 						key={index}
 						label={item.label}
 						className="d-flex listItem">
+						{/* checkbox start*/}
+						<span
+							className={
+								item.completed
+									? "checkbox-round completed mr-3"
+									: "checkbox-round mr-3"
+							}
+							onClick={() => handleCompleteTodo(index)}></span>
+						{/* checkbox end*/}
+
 						{/* list of line items start*/}
 						{item.label}
 

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 export function ToDoList() {
 	const [list, setList] = useState([]);
@@ -53,17 +54,18 @@ export function ToDoList() {
 						<span
 							className="ml-auto"
 							onClick={() => deleteTodo(index)}>
-							<FontAwesomeIcon className="icon" icon={faTimes} />
+							<FontAwesomeIcon className="icon" icon={faTrash} />
 						</span>
 					</li>
 				))}
 				{/* list counter in footer */}
+
 				<li className="counter">
 					{list.length > 0
-						? `${list.length} item${
+						? `${list.length} task${
 								list.length > 1 ? "s left" : " left"
 						  }`
-						: "All tasks completed"}
+						: "All tasks completed, yay!"}
 				</li>
 			</ul>
 		</div>

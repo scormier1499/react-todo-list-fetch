@@ -36,7 +36,7 @@ export function ToDoList() {
 	};
 
 	return (
-		<div className="d-flex flex-column align-items-center justtify-content-center h-100">
+		<div className="d-flex flex-column align-items-center justify-content-center h-100">
 			<h1>
 				todo
 				<span className="todotitle-suffix">
@@ -88,6 +88,13 @@ export function ToDoList() {
 								list.length > 1 ? "s left" : " left"
 						  }`
 						: "All tasks completed, yay!"}
+
+					<span
+						className="clearall"
+						role="button"
+						onClick={() => setList([])}>
+						clear list
+					</span>
 				</li>
 			</ul>
 		</div>

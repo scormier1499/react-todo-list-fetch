@@ -1,16 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { object } from "prop-types";
+
+const baseURL = "https://assets.breatheco.de/apis/fake/todos/user/sacormier";
 
 export function ToDoList() {
 	const [list, setList] = useState([]);
 	const [inputValue, setInputValue] = useState("");
 	const [completed, setCompleted] = useState("");
+	useEffect(() => {
+		syncData();
+	}, []);
+	const syncData = () => {
+		fetch(baseURL)
+			.then(response => {
+				if (!response.ok) throw new Error(response.statusText);
+				return response.json();
+			})
+			.then(data => {
+				setList(data);
+			})
+			.catch(error => console.log(error));
+	};
+
+	const updateData = data => {
+		console.log(data);
+		fetch(baseURL, {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(data)
+		})
+			.then(response => {
+				if (!response.ok) throw new Error(response.statusText);
+				return response.json();
+			})
+			.then(data => {
+				syncData();
+			})
+			.catch(error => console.log(error));
+	};
 
 	const handleKeyPress = e => {
 		if (e.key === "Enter" && inputValue !== "") {
-			setList(
+			updateData(
 				list.concat({
 					label: inputValue,
 					done: false
@@ -21,7 +57,16 @@ export function ToDoList() {
 	};
 
 	const deleteTodo = index => {
-		setList(list.filter((item, i) => index != i));
+		let newList = list.filter((item, i) => index != i);
+		if (newList.length !== 0) {
+			updateData(newList);
+		} else {
+			clearList();
+		}
+	};
+
+	const clearList = () => {
+		updateData([{ label: "sample to do", done: false }]);
 	};
 
 	const handleCompleteTodo = index => {
@@ -32,7 +77,7 @@ export function ToDoList() {
 			updatedList[i].completed && count++;
 		}
 		setCompleted(count);
-		setList(updatedList);
+		updateData(updatedList);
 	};
 
 	return (
@@ -82,7 +127,7 @@ export function ToDoList() {
 				))}
 				{/* list counter in footer */}
 
-				<li className="counter">
+				<li className="counter d-flex justify-content-between">
 					{list.length > 0
 						? `${list.length} task${
 								list.length > 1 ? "s left" : " left"
@@ -90,9 +135,9 @@ export function ToDoList() {
 						: "All tasks completed, yay!"}
 
 					<span
-						className="clearall"
+						className="d-flex justify-content-end"
 						role="button"
-						onClick={() => setList([])}>
+						onClick={clearList}>
 						clear list
 					</span>
 				</li>

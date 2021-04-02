@@ -135,10 +135,10 @@ export function ToDoList() {
 						: "All tasks completed, yay!"}
 
 					<span
-						className="d-flex justify-content-end"
+						className="clearall d-flex justify-content-end"
 						role="button"
 						onClick={clearList}>
-						clear list
+						Clear list
 					</span>
 				</li>
 			</ul>

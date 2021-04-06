@@ -10,9 +10,14 @@ export function ToDoList() {
 	const [list, setList] = useState([]);
 	const [inputValue, setInputValue] = useState("");
 	const [completed, setCompleted] = useState("");
+
+	// start syncdata
 	useEffect(() => {
 		syncData();
 	}, []);
+	// end syncdata
+
+	// start data fetch
 	const syncData = () => {
 		fetch(baseURL)
 			.then(response => {
@@ -24,7 +29,9 @@ export function ToDoList() {
 			})
 			.catch(error => console.log(error));
 	};
+	// end data fetch
 
+	// start PUT method
 	const updateData = data => {
 		console.log(data);
 		fetch(baseURL, {
@@ -43,7 +50,9 @@ export function ToDoList() {
 			})
 			.catch(error => console.log(error));
 	};
+	// end PUT method
 
+	// start press Enter handler
 	const handleKeyPress = e => {
 		if (e.key === "Enter" && inputValue !== "") {
 			updateData(
@@ -55,7 +64,9 @@ export function ToDoList() {
 			setInputValue("");
 		}
 	};
+	// end press Enter handler
 
+	// start clearlist
 	const deleteTodo = index => {
 		let newList = list.filter((item, i) => index != i);
 		if (newList.length !== 0) {
@@ -65,10 +76,14 @@ export function ToDoList() {
 		}
 	};
 
+	// extra constant because we can't have an empty array for this project
 	const clearList = () => {
 		updateData([{ label: "sample to do", done: false }]);
 	};
 
+	// end clearlist
+
+	// start complete to do function
 	const handleCompleteTodo = index => {
 		let updatedList = [].concat(list);
 		updatedList[index].completed = !updatedList[index].completed;
@@ -79,7 +94,9 @@ export function ToDoList() {
 		setCompleted(count);
 		updateData(updatedList);
 	};
+	// end complete to do function
 
+	// start HTML return
 	return (
 		<div className="d-flex flex-column align-items-center justify-content-center h-100">
 			<h1>
@@ -99,7 +116,8 @@ export function ToDoList() {
 						onChange={e => setInputValue(e.target.value)}
 					/>
 				</li>
-				{/* mapping for new line items*/}
+
+				{/* start mapping for new line items*/}
 				{list.map((item, index) => (
 					<li
 						key={index}
@@ -115,17 +133,26 @@ export function ToDoList() {
 							onClick={() => handleCompleteTodo(index)}></span>
 						{/* checkbox end*/}
 
-						{/* list of line items start*/}
+						{/* start of list line items */}
+
 						{item.label}
 
+						{/* end of list line items */}
+
+						{/* start of trash can delete function */}
 						<span
 							className="ml-auto"
 							onClick={() => deleteTodo(index)}>
 							<FontAwesomeIcon className="icon" icon={faTrash} />
 						</span>
+						{/* end of trash can delete function */}
 					</li>
 				))}
-				{/* list counter in footer */}
+
+				{/* end mapping for new line items*/}
+
+				{/* footer start */}
+				{/* start of list counter in footer */}
 
 				<li className="counter d-flex justify-content-between">
 					{list.length > 0
@@ -134,14 +161,23 @@ export function ToDoList() {
 						  }`
 						: "All tasks completed, yay!"}
 
+					{/* end of list counter in footer */}
+
+					{/* start of clear list link */}
+
 					<span
 						className="clearall d-flex justify-content-end"
 						role="button"
 						onClick={clearList}>
 						Clear list
 					</span>
+
+					{/* end of clear list link */}
 				</li>
+
+				{/* footer end */}
 			</ul>
 		</div>
 	);
+	// end HTML return
 }

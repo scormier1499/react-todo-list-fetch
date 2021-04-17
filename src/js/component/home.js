@@ -152,7 +152,7 @@ export function ToDoList() {
 				{/* end mapping for new line items*/}
 
 				{/* footer start */}
-				{/* start of list counter in footer */}
+				{/* start of todo counter in footer */}
 
 				<li className="counter d-flex justify-content-between">
 					{list.length > 0
@@ -161,7 +161,7 @@ export function ToDoList() {
 						  }`
 						: "All tasks completed, yay!"}
 
-					{/* end of list counter in footer */}
+					{/* end of todo counter in footer */}
 
 					{/* start of clear list link */}
 
